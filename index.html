@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="SHIFT Planner" />
+    <meta name="keywords" content="SHIFT Planner, Trajectory Optimization, Uniform Lightweight Coverage" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      SHIFT Planner: Speedy Hybrid Iterative Field and Segmented Trajectory Optimization with IKD-tree for Uniform Lightweight Coverage
+    </title>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag("js", new Date());
+
+      gtag("config", "G-PYVRSFMDRL");
+    </script>
+
+<!--    <link-->
+<!--      href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"-->
+<!--      rel="stylesheet"-->
+<!--    />-->
+
+    <link rel="stylesheet" href="./static/css/bulma.min.css" />
+    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css" />
+    <link rel="stylesheet" href="./static/css/bulma-slider.min.css" />
+    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css" />
+<!--    <link-->
+<!--      rel="stylesheet"-->
+<!--      href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"-->
+<!--    />-->
+    <link rel="stylesheet" href="./static/css/index.css" />
+    <!-- <link rel="icon" href="./static/images/favicon.svg" /> -->
+
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
+    <script defer src="./static/js/fontawesome.all.min.js"></script>
+    <script src="./static/js/bulma-carousel.min.js"></script>
+    <script src="./static/js/bulma-slider.min.js"></script>
+    <!-- <script src="./static/js/index.js"></script> -->
+  </head>
+  <body>
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered">
+            <div class="column has-text-centered">
+              <h1 class="title is-1 publication-title">
+                SHIFT Planner: Speedy Hybrid Iterative Field and Segmented Trajectory Optimization with IKD-tree for Uniform Lightweight Coverage
+              </h1>
+              <h1 class="title is-4">IROS 2025</h1>
+              <div class="is-size-5 publication-authors">
+                <span class="author-block">
+                  <a href="">Zexuan Fan</a
+                  ><sup>1</sup>,</span
+                >
+                <span class="author-block">
+                  <a href=""
+                    >Sunchun Zhou</a
+                  ><sup>1</sup>,</span
+                >
+                <span class="author-block">
+                  <a
+                    href=""
+                    >Junyi Cai</a
+                  ><sup>1</sup>,
+                </span>
+				<span class="author-block">
+                  <a
+                    href=""
+                    >Hengye Yang</a
+                  ><sup>1</sup>,
+                </span>
+				<span class="author-block">
+                  <a
+                    href=""
+                    >Ran Cheng</a
+                  ><sup>1</sup>,
+                </span>
+				<span class="author-block">
+                  <a
+                    href=""
+                    >Lige Liu</a
+                  ><sup>1</sup>,
+                </span>
+				<span class="author-block">
+                  <a
+                    href=""
+                    >Tao Sun</a
+                  ><sup>1</sup>,
+                </span>				
+              </div>
+
+              <div class="is-size-5 publication-authors">
+                <span class="author-block"><sup>1</sup>Robot Zone. Midea Group Corporate</span>
+              </div>
+
+              <div class="column has-text-centered">
+                <div class="publication-links">
+                  <!-- PDF Link. -->
+                  <span class="link-block">
+                    <a
+                      href=""
+                      class="external-link button is-normal is-rounded is-dark"
+                    >
+                      <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                      </span>
+                      <span>Paper</span>
+                    </a>
+                  </span>
+                  <span class="link-block">
+                    <a
+                      href=""
+                      class="external-link button is-normal is-rounded is-dark"
+                    >
+                      <span class="icon">
+                        <i class="ai ai-arxiv"></i>
+                      </span>
+                      <span>arXiv</span>
+                    </a>
+                  </span>
+                  <!-- Code Link. -->
+                  <span class="link-block">
+                    <a
+                      href=""
+                      class="external-link button is-normal is-rounded is-dark"
+                    >
+                      <span class="icon">
+                        <i class="fab fa-github"></i>
+                      </span>
+                      <span>Code</span>
+                    </a>
+                  </span>
+                  <!-- Video Link. -->
+                  <span class="link-block">
+                    <a
+                      href=""
+                      class="external-link button is-normal is-rounded is-dark"
+                    >
+                      <span class="icon">
+                        <i class="fab fa-youtube"></i>
+                      </span>
+                      <span>Video</span>
+                    </a>
+                  </span>
+                  <!-- Poster Link. -->
+                  <span class="link-block">
+                    <a
+                      href="assets/architecture.png"
+                      class="external-link button is-normal is-rounded is-dark"
+                    >
+                      <span class="icon">
+                        <i class="fas fa-palette"></i>
+                      </span>
+                      <span>Poster</span>
+                    </a>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero teaser">
+      <div class="container is-max-desktop center">
+        <div class="hero-body" align="center">
+          <img src="assets/paper_arch2.png" style="max-width: 120%" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container is-max-desktop">
+        <!-- Abstract. -->
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Abstract</h2>
+            <div class="content has-text-justified">
+              <p>
+                Efficient and uniform coverage of complex environments is critical for autonomous robots performing
+                tasks such as cleaning, inspection, and agricultural operations. Existing methods often focus on
+                minimizing traversal time or path length, neglecting the importance of uniform coverage and environmental
+                attribute modeling. This paper introduces <b>SHIFT Planner</b>, a comprehensive planning and navigation
+                framework tailored for these robotic tasks. Key innovations include:
+                <ul><li><b>Differential Geometry-Based Surface Extraction:</b></li>
+                    Extending uniform coverage planning from 2D to 3D environments using actual terrain point clouds collected
+                    from sensors like LiDAR and cameras.
+                </ul>
+                <ul><li><b>Direct Landmark Point Planning:</b></li>
+                  Eliminating the need for region decomposition by deploying uniform coverage patterns directly onto environmental surfaces.
+                </ul>
+                <ul><li><b>Dynamic Trajectory Planning with Safety Thresholds:</b></li>
+                  Introducing a local optimization framework that activates only when necessary, enhancing real-time performance and computational efficiency.
+                </ul>
+                <ul><li><b>Environmental Attribute Modeling with Gaussian Fields</b></li>
+                  Adjusting robot behavior dynamically based on environmental attributes such as dirtiness or dryness.
+                </ul>
+
+                <ul><li><b>Integration of IKD-tree for Lightweight Mapping</b></li>
+                  Utilizing an Incremental K-Dimensional tree (IKD-tree) for efficient local mapping and optimization.
+                </ul>
+
+              </p>
+            </div>
+          </div>
+        </div>
+        <!--/ Abstract. -->
+
+        <!-- Paper video. -->
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Video</h2>
+            <div class="publication-video">
+              <iframe
+                      src="assets/demo.mp4"
+                      frameborder="0"
+                      allow="autoplay; encrypted-media"
+                      allowfullscreen
+              ></iframe>
+            </div>
+          </div>
+        </div>
+        <!--/ Paper video. -->
+
+
+
+        <section class="hero teaser">
+          <div class="container is-max-desktop center">
+            <div class="hero-body" align="center">
+              <h2 class="title is-3">3D Optimization Process</h2>
+              <img src="assets/picture/p6.png" style="max-width: 100%" />
+
+            </div>
+          </div>
+        </section>
+
+        <section class="hero teaser">
+          <div class="container is-max-desktop center">
+            <div class="hero-body" align="center">
+              <h2 class="title is-3">Results on 3D path</h2>
+              <img src="assets/3d_path_optimization.gif" style="max-width: 48%" />
+              <img src="assets/3d_path_optimization_case2.gif" style="max-width: 48%" />
+            </div>
+          </div>
+        </section>
+
+
+
+<!--        <section class="hero teaser">-->
+<!--          <div class="container is-max-desktop center">-->
+<!--            <div class="hero-body" align="center">-->
+<!--              <h2 class="title is-3">2D Optimization Process</h2>-->
+<!--              <img src="assets/path_optimization.gif" style="max-width: 48%" />-->
+<!--              <img src="assets/path_optimization_distance.gif" style="max-width: 48%"/>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </section>-->
+
+        <section class="hero teaser">
+          <div class="container is-max-desktop center">
+            <div class="hero-body" align="center">
+              <h2 class="title is-3">Results on 2D path</h2>
+              <img src="assets/path_optimization_smoothing_process.gif" style="max-width: 100%" />
+
+              <div class="content has-text-justified">
+                <p>
+                  Illustration of the <b>SHIFT Planner</b> path optimization.
+                  Given the original path, continuously iterate and optimize the trajectory.
+                  The red dashed line represents the initial path,
+                  blue represents the optimized path,
+                  and green represents the smooth path
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+
+        <section class="hero teaser">
+          <div class="container is-max-desktop center">
+            <div class="hero-body" align="center">
+              <h2 class="title is-3">Semantic map </h2>
+              <img src="assets/picture/map_result_category_map.png" style="max-width: 90%" />
+            </div>
+          </div>
+        </section>
+
+        <section class="hero teaser">
+          <div class="container is-max-desktop center">
+            <div class="hero-body" align="center">
+              <h2 class="title is-3">Result on zigzag path </h2>
+              <img src="assets/picture/p28.png" style="max-width: 90%" />
+            </div>
+          </div>
+        </section>
+
+        <section class="hero teaser">
+          <div class="container is-max-desktop center">
+            <div class="hero-body" align="center">
+              <h2 class="title is-3">Result on 3D terrain speed adaptive coverage path </h2>
+              <img src="assets/newPIC/trajectory_speed.gif" style="max-width: 90%" />
+            </div>
+          </div>
+        </section>
+
+        <section class="hero teaser">
+          <div class="container is-max-desktop center">
+            <div class="hero-body" align="center">
+              <h2 class="title is-3">Result on 2D zigzag speed adaptive coverage path </h2>
+              <img src="assets/newPIC/2d_zigzag_cut.gif" style="max-width: 90%" />
+            </div>
+          </div>
+        </section>
+
+        <section class="hero teaser">
+          <div class="container is-max-desktop center">
+            <div class="hero-body" align="center">
+              <h2 class="title is-3">Conference Poster</h2>
+              <img src="assets/architecture.png" />
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </section>
+
+
+
+    <section class="section" id="BibTeX">
+      <div class="container is-max-desktop content">
+        <h2 class="title">BibTeX</h2>
+        <pre><code>@inproceedings{frank2025shift,
+  title     = {{SHIFT Planner: Speedy Hybrid Iterative Field and Segmented Trajectory Optimization with IKD-tree for Uniform Lightweight Coverage}},
+  author    = {Zexuan Fan, Sunchun Zhou, Junyi, Cai},
+  booktitle = {IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
+  year      = {2025}
+}</code></pre>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-8">
+            <div class="content" align="center">
+              <p>
+                This website is licensed under a
+                <a
+                  rel="license"
+                  href="http://creativecommons.org/licenses/by-sa/4.0/"
+                  >Creative Commons Attribution-ShareAlike 4.0 International
+                  License</a
+                >.
+              </p>
+              <p>
+                It borrows the source code of
+                <a href="https://github.com/nerfies/nerfies.github.io"
+                  >this website</a
+                >. We would like to thank Utkarsh Sinha and Keunhong Park.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
